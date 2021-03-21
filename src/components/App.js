@@ -4,6 +4,11 @@ import {Auth} from "./Auth";
 
 export const App = () => {
     return <ChatProvider>
-        <Auth />
-    </ChatProvider>
+                <Greetings/>
+                <Auth/>
+                </ChatProvider>
+};
+
+const Greetings = () => {
+    return <h1>Chat</h1>
 };

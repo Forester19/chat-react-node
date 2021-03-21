@@ -2,7 +2,13 @@ import React, {useState, createContext, useContext, useReducer} from "react";
 
 export const ChatContext = createContext();
 
-const initialContext = {isAuth: false};
+const initialContext = {
+    auth: {
+        isLoggedIn: true,
+        name: "John",
+        error: null,
+    }
+};
 
 const IS_AUTH = "IS_AUTH";
 
@@ -13,7 +19,7 @@ export const updateIsAuth = (isAuth) => {
 export const chatReducer = (state, action) => {
     switch (action.type) {
         case IS_AUTH:
-            return {...state, ...{isAuth: action.payload}}
+            return {...state.auth, ...{auth:{isLoggedIn: action.payload}}}
     }
 };
 
