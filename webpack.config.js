@@ -1,4 +1,3 @@
-
 const path = require("path");
 
 module.exports = {
@@ -21,15 +20,19 @@ module.exports = {
                 use: ["style-loader", "css-loader"]
             },
             {
-                test: /\.s[ac]ss$/i,
+                test : /\.scss$/,
+                exclude: /node_modules/,
                 use: [
-                    // Creates `style` nodes from JS strings
-                    "style-loader",
-                    // Translates CSS into CommonJS
-                    "css-loader",
-                    // Compiles Sass to CSS
-                    "sass-loader",
-                ],
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "sass-loader"
+                    }
+                ]
             }
         ]
     }

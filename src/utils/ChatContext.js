@@ -6,7 +6,8 @@ const initialContext = {
     auth: {
         isLoggedIn: true,
         name: "John",
-        error: null,
+        password: "",
+        role: 0, // 0 - user, 1 - admin;
     }
 };
 
