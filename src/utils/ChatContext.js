@@ -4,14 +4,16 @@ export const ChatContext = createContext();
 
 const initialContext = {
     auth: {
-        isLoggedIn: true,
+        isLoggedIn: false,
         name: "John",
         password: "",
         role: 0, // 0 - user, 1 - admin;
-    }
+    },
+    isLoading: false
 };
 
 const IS_AUTH = "IS_AUTH";
+const IS_LOADING = "IS_LOADING";
 
 export const updateIsAuth = (isAuthData) => {
     return {type: IS_AUTH, payload: isAuthData}
@@ -19,9 +21,14 @@ export const updateIsAuth = (isAuthData) => {
 
 export const chatReducer = (state, action) => {
     switch (action.type) {
-        case IS_AUTH:
+        case IS_AUTH:{
             console.log("action.payload " + action.payload);
-            return {...state, ...{auth:action.payload}};
+            return {...state, ...{auth: action.payload}};
+        }
+        case IS_LOADING: {
+            return {...state, ...{isLoading: action.payload}}
+        }
+
     }
 };
 

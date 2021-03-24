@@ -1,5 +1,8 @@
-import React, {useState}  from "react";
+import React, {useState} from "react";
 import {updateIsAuth, useChatContext} from "../utils/ChatContext";
+import axios from "axios";
+import serverUrl from "../utils/constants";
+import {updateIsLoading} from "../utils/actions/IsLoadingAction";
 
 export const Auth = () => {
     const {state, dispatch} = useChatContext();
@@ -7,18 +10,29 @@ export const Auth = () => {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleParamChange = () => {
-        let newV = !state.auth.isLoggedIn;
+    const handleSubmit = () => {
+       /* let newV = !state.auth.isLoggedIn;
         let newData = {
             isLoggedIn: newV,
             name: state.auth.name,
             error: state.auth.error,
         };
-        dispatch(updateIsAuth(newData));
+        dispatch(updateIsAuth(newData));*/
+       console.log('name ' + name + ' pass ' + password);
+       dispatch(updateIsLoading(true));
+       axios.post(serverUrl + '/user',{name:name, password: password})
+           .then((resp)=>{
+               console.log('resp ' + JSON.stringify(resp));
+               dispatch(updateIsLoading(false));
+           })
+           .catch((error)=>{
+               console.log('error ' + JSON.stringify(error));
+               dispatch(updateIsLoading(false));
+           });
     };
     console.log("Auth state " + JSON.stringify(state));
 
-    if(isLoading) {
+    if (isLoading) {
         return <div>Loading...</div>
     }
 
@@ -28,10 +42,16 @@ export const Auth = () => {
             <div className="signup">
                 <h2 className="form-title" id="signup"><span>or</span>Sign up</h2>
                 <div className="form-holder">
-                    <input type="text" className="input" placeholder="Name" value={name}/>
-                    <input type="password" className="input" placeholder="Password"/>
+                    <input type="text" className="input" placeholder="Name"
+                           onChange={(val) => {
+                               setName(val.target.value)
+                           }}/>
+                    <input type="password" className="input" placeholder="Password"
+                           onChange={(val) => {
+                               setPassword(val.target.value)
+                           }}/>
                 </div>
-                <button className="submit-btn">Sign up</button>
+                <button className="submit-btn" onClick={handleSubmit}>Sign up</button>
             </div>
             <div className="login slide-up">
                 <div className="center">
@@ -40,7 +60,7 @@ export const Auth = () => {
                         <input type="email" className="input" placeholder="Email"/>
                         <input type="password" className="input" placeholder="Password"/>
                     </div>
-                    <button className="submit-btn">Log in</button>
+                    <button className="submit-btn" onClick={handleSubmit}>Log in</button>
                 </div>
             </div>
         </div>
