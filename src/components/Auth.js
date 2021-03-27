@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {updateIsAuth, useChatContext} from "../utils/ChatContext";
+import {serverUrl} from "../utils/constants";
 import axios from "axios";
-import serverUrl from "../utils/constants";
 import {updateIsLoading} from "../utils/actions/IsLoadingAction";
 
 export const Auth = () => {
@@ -11,24 +11,24 @@ export const Auth = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = () => {
-       /* let newV = !state.auth.isLoggedIn;
-        let newData = {
-            isLoggedIn: newV,
-            name: state.auth.name,
-            error: state.auth.error,
-        };
-        dispatch(updateIsAuth(newData));*/
-       console.log('name ' + name + ' pass ' + password);
-       dispatch(updateIsLoading(true));
-       axios.post(serverUrl + '/user',{name:name, password: password})
-           .then((resp)=>{
-               console.log('resp ' + JSON.stringify(resp));
-               dispatch(updateIsLoading(false));
-           })
-           .catch((error)=>{
-               console.log('error ' + JSON.stringify(error));
-               dispatch(updateIsLoading(false));
-           });
+        /* let newV = !state.auth.isLoggedIn;
+         let newData = {
+             isLoggedIn: newV,
+             name: state.auth.name,
+             error: state.auth.error,
+         };
+         dispatch(updateIsAuth(newData));*/
+        console.log('name ' + name + ' pass ' + password);
+        dispatch(updateIsLoading(true));
+        axios.post(serverUrl + '/user', {name: name, password: password})
+            .then((resp) => {
+                console.log('resp ' + JSON.stringify(resp));
+                dispatch(updateIsLoading(false));
+            })
+            .catch((error) => {
+                console.log('error ' + JSON.stringify(error));
+                dispatch(updateIsLoading(false));
+            });
     };
     console.log("Auth state " + JSON.stringify(state));
 
