@@ -1,40 +1,46 @@
 import React, {useState} from "react";
-import {updateIsAuth, useChatContext} from "../utils/ChatContext";
-import {serverUrl} from "../utils/constants";
-import axios from "axios";
+import {updateAuthData, useChatContext} from "../utils/ChatContext";
+import {axiosInstance} from "../utils/AxiosConfig";
 import {updateIsLoading} from "../utils/actions/IsLoadingAction";
 
 export const Auth = () => {
     const {state, dispatch} = useChatContext();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = () => {
-        /* let newV = !state.auth.isLoggedIn;
-         let newData = {
-             isLoggedIn: newV,
-             name: state.auth.name,
-             error: state.auth.error,
-         };
-         dispatch(updateIsAuth(newData));*/
+        if(state.auth.isLoggedIn) {
+            return;
+        }
         console.log('name ' + name + ' pass ' + password);
         dispatch(updateIsLoading(true));
-        axios.post(serverUrl + '/user', {name: name, password: password})
+        axiosInstance.post('/users', {name: name, password: password})
             .then((resp) => {
                 console.log('resp ' + JSON.stringify(resp));
+                let newData = {
+                    isLoggedIn: true,
+                    name: name,
+                    role: state.auth.role,
+                    error: "",
+                };
+                setName(resp.data.key);
+                dispatch(updateAuthData(newData));
                 dispatch(updateIsLoading(false));
             })
             .catch((error) => {
+                let newData = {
+                    isLoggedIn: false,
+                    name: "",
+                    role: state.auth.role,
+                    error: "Login error",
+                };
                 console.log('error ' + JSON.stringify(error));
+
+                dispatch(updateAuthData(newData));
                 dispatch(updateIsLoading(false));
             });
     };
     console.log("Auth state " + JSON.stringify(state));
-
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
 
     return <div>
         <div>React app is logged {state.auth.isLoggedIn ? 'true' : 'false'}</div>

@@ -6,8 +6,8 @@ const initialContext = {
     auth: {
         isLoggedIn: false,
         name: "John",
-        password: "",
         role: 0, // 0 - user, 1 - admin;
+        error:""
     },
     isLoading: false
 };
@@ -15,8 +15,8 @@ const initialContext = {
 const IS_AUTH = "IS_AUTH";
 const IS_LOADING = "IS_LOADING";
 
-export const updateIsAuth = (isAuthData) => {
-    return {type: IS_AUTH, payload: isAuthData}
+export const updateAuthData = (authData) => {
+    return {type: IS_AUTH, payload: authData}
 };
 
 export const chatReducer = (state, action) => {

@@ -5,10 +5,12 @@ import {Chat} from "./Chat";
 import {NotFoundComponent} from "./NotFound";
 import {Loading} from "./Loading";
 import {Overlay} from "./Overlay";
+import {Error} from "./Error";
 
 export const App = () => {
     return <div className={"wrapper"}>
         <Overlay/>
+        <Error/>
         <Greetings/>
         <BrowserRouter>
             <Switch>
